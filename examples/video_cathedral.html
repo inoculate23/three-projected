@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Same camera example - three-projected-material</title>
+    <link rel="stylesheet" href="css/style.css" type="text/css" />
+    <style>
+#iframe {
+  position:absolute;
+  margin:0px;
+  z-index:-6;
+
+
+}
+canvas {
+  position:absolute;
+  margin:0px;
+  z-index:0;
+}
+</style>
+  </head>
+  <body>
+    <div class="sketchfab-embed-wrapper">
+       <iframe id="iframe" title="Parliament" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" allow="autoplay; fullscreen; xr-spatial-tracking" xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share width="1920" height="1080" src="https://sketchfab.com/models/5953c779ce3447beb9654920bd58d35c/embed?autostart=1&camera=0&preload=1&ui_theme=dark&dnt=1"> </iframe> </div>
+    <canvas id="app"></canvas>
+    <a
+      class="source-fab"
+      target="_blank"
+      href="https://github.com/marcofugaro/three-projected-material/blob/master/examples/same-camera.html"
+      title="View source code on GitHub"
+    >
+      <img src="images/source.svg" />
+    </a>
+
+    <script type="module">
+      import * as THREE from 'three'
+      import WebGLApp from './lib/WebGLApp.js'
+      import ProjectedMaterial from '..'
+      import { random } from './lib/math-utils.js'
+      import { loadGltf, extractGeometry } from './lib/three-utils.js'
+let background;
+      // grab our canvas
+      const canvas = document.querySelector('#app')
+
+      // WebGLApp is a really basic wrapper around the three.js setup,
+      // it hides all unnecessary stuff not related to this example
+      const webgl = new WebGLApp({
+        canvas,
+        // set the scene background color
+       // background: '#E6E6E6',
+
+
+        // show the fps counter from stats.js
+        showFps: true,
+        // enable orbit-controls
+        orbitControls: true,
+      })
+
+      // attach it to the window to inspect in the console
+      window.webgl = webgl
+      // load the model and extract the geometry from it
+
+
+    // create a video element and play it
+    const video = document.createElement('video')
+    video.src = './preview2.mp4'
+    video.muted = true
+    video.loop = true
+    video.play()
+
+    // create the VideoTexture and enable gamma correction for it
+    const texture = new THREE.VideoTexture(video)
+
+          // load the example texture
+       //   const texture = new THREE.TextureLoader().load('./baron.jpg')
+// create a bunch of meshes
+const elements = new THREE.Group()
+const NUM_ELEMENTS = 3
+for (let i = 0; i < NUM_ELEMENTS; i++) {
+  const gltf = await loadGltf('./bucharest.glb');
+gltf.rotation = (0,90,0);
+  const geometry = extractGeometry(gltf.scene)
+
+  // create a different material for different objects
+  // since each one will have a different position
+  const AMOUNT = 1;
+
+
+				const WIDTH = ( window.innerWidth / AMOUNT ) * window.devicePixelRatio;
+				const HEIGHT = ( window.innerHeight / AMOUNT ) * window.devicePixelRatio;
+//let camera;
+ // const cameras = [];
+
+		//		for ( let y = 0; y < AMOUNT; y ++ ) {
+
+			//		for ( let x = 0; x < AMOUNT; x ++ ) {
+
+				//		const subcamera = new THREE.PerspectiveCamera( 60, ASPECT_RATIO, 0.71, 10000 );
+				//		subcamera.viewport = new THREE.Vector4( Math.floor( x * WIDTH ), Math.floor( y * HEIGHT ), Math.ceil( WIDTH ), Math.ceil( HEIGHT ) );
+			//			subcamera.position.x = 90 - ( x / AMOUNT );
+				//		subcamera.position.y = 32.5 / ( y / AMOUNT );
+				//		subcamera.position.z = 45.5 + ( y / AMOUNT );
+			//			subcamera.position.multiplyScalar( 1 );
+			//			subcamera.lookAt( 90, 90, 5 );
+			//			subcamera.updateMatrixWorld();
+			//			cameras.push( subcamera );
+
+			//		}
+
+		//		}
+
+	//const camera = new THREE.webgl.camera;
+//  const ASPECT_RATIO = window.innerWidth / window.innerHeight;
+		//		camera.position.z = 40;
+       // camera.rotate = 95;
+    //    camera.position.y = 0;
+  const material = new ProjectedMaterial({
+    // use the orthographic camera
+    camera: webgl.camera,
+    //orthographic: true,
+    texture,
+    color: '#1c1c1c',
+    textureScale: 10,
+  })
+  const element = new THREE.Mesh(geometry, material)
+
+  // move the meshes any way you want!
+  element.position.x = 0;
+  element.position.y = 0;
+  element.position.z = 5;
+
+  // and when you're ready project the texture!
+  material.project(element)
+
+  elements.add(element)
+}
+
+webgl.scene.add(elements)
+////const TextureLoader = new THREE.TextureLoader();
+webgl.scene.background = new THREE.Color(0x000000);
+// move the camera so it's not facing the
+// texture straight on at the start
+// webgl.camera.position.set(0, 1, 10)
+webgl.camera.lookAt(10, -70, 0)
+webgl.camera.lookAt(10, -70, 0)
+
+// add lights
+const directionalLight = new THREE.DirectionalLight('#ffffff', 9.9)
+directionalLight.position.set(80, 5, 0)
+webgl.scene.add(directionalLight)
+
+const ambientLight = new THREE.AmbientLight('#fff', 6.89)
+webgl.scene.add(ambientLight)
+
+
+     // elements.rotation.z = Math.PI / 2
+     //webgl.onUpdate(() => {
+     //   elements.rotation.z -= 0.021;
+
+
+    //  })
+
+
+
+      // start animation loop
+      webgl.start()
+    </script>
+  </body>
+</html>

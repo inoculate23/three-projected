@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>3D Model example - three-projected-material</title>
+    <link rel="stylesheet" href="css/style.css" type="text/css" />
+    <style>
+      #vegas {
+        Z-index:3;
+        position:absolute;
+        width:1920px;
+        height: 100vh;
+       margin-top:5%;
+Margin-left:-20%;
+turntable:-3;
+
+        zoom: 14.5;
+
+      }
+      #app {
+        Z-index:0;
+        position:absolute;
+     
+      }
+      video {
+      z-index:1;
+      position:absolute;
+Height:1080px;
+Margin-left:-20%;
+Autoplay:true;
+      }
+ video2 {
+      Z-index:5;
+      position:absolute;
+      }
+    </style>
+  </head>
+  <body>
+   <div class="sketchfab-embed-wrapper"> <iframe title="Welcome To Fabulous Las Vegas" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" allow="autoplay; fullscreen; xr-spatial-tracking" xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share width="1920" height="1080" src="https://sketchfab.com/models/41b5b230ad3f4f3d91f56be393a764c8/embed?autospin=1&autostart=1&preload=1&transparent=1&ui_theme=dark&dnt=1"> </iframe> <p style="font-size: 13px; font-weight: normal; margin: 5px; color: #4A4A4A;"> <a href="https://sketchfab.com/3d-models/welcome-to-fabulous-las-vegas-41b5b230ad3f4f3d91f56be393a764c8?utm_medium=embed&utm_campaign=share-popup&utm_content=41b5b230ad3f4f3d91f56be393a764c8" target="_blank" rel="nofollow" style="font-weight: bold; color: #1CAAD9;"> Welcome To Fabulous Las Vegas </a> by <a href="https://sketchfab.com/kanistra?utm_medium=embed&utm_campaign=share-popup&utm_content=41b5b230ad3f4f3d91f56be393a764c8" target="_blank" rel="nofollow" style="font-weight: bold; color: #1CAAD9;"> kanistra </a> on <a href="https://sketchfab.com?utm_medium=embed&utm_campaign=share-popup&utm_content=41b5b230ad3f4f3d91f56be393a764c8" target="_blank" rel="nofollow" style="font-weight: bold; color: #1CAAD9;">Sketchfab</a></p></div>
+    <canvas id="app"></canvas>
+    <video id="video" src="models/Atomic.mp4" loop autoplay mute></video>
+    <a
+      class="source-fab"
+      target="_blank"
+      href="https://github.com/marcofugaro/three-projected-material/blob/master/examples/3d-model.html"
+      title="View source code on GitHub"
+    >
+      <img src="images/source.svg" />
+    </a>
+
+    <script type="module">
+      import * as THREE from 'three'
+      import WebGLApp from './lib/WebGLApp.js'
+      import ProjectedMaterial from '..'
+      import { loadGltf, extractGeometry } from './lib/three-utils.js'
+
+      // grab our canvas
+      const canvas = document.querySelector('#app')
+
+      // WebGLApp is a really basic wrapper around the three.js setup,
+      // it hides all unnecessary stuff not related to this example
+      const webgl = new WebGLApp({
+        canvas,
+
+        // set the scene background color
+        background: '#E6E6E6',
+        // show the fps counter from stats.js
+        showFps: true,
+        // enable orbit-controls
+        orbitControls: true,
+      })
+
+      // attach it to the window to inspect in the console
+      window.webgl = webgl
+
+      // load the model and extract the geometry from it
+     // const gltf = await loadGltf('/Volumes/ext1/most_done_three-projected-material/examples/public/models/las_vegas_usa/scene.gltf')
+    //  const geometry = extractGeometry(gltf.scene)
+
+      // load the example texture
+      const texture = new THREE.TextureLoader().load('/screenshots/morraine.jpg')
+
+      // create the mesh with the projected material
+      const material = new ProjectedMaterial({
+        camera: webgl.camera,
+
+        texture,
+        color: '#ccc',
+        textureScale: 80.8,
+      })
+      const mesh = new THREE.Mesh(geometry, material)
+
+      webgl.scene.add(mesh)
+
+      // move the mesh any way you want!
+      // (in this case no translations/rotations)
+
+      // and when you're ready project the texture!
+      material.project(mesh)
+
+      // rotate for demo purposes
+      mesh.rotation.x = -5;
+      mesh.rotation.z = 189;
+      mesh.rotation.y = 4;
+      webgl.onUpdate(() => {
+       // mesh.rotation.y -= 0.003
+      })
+
+      // add lights
+      const directionalLight = new THREE.DirectionalLight('#ffffff', 0.6)
+      directionalLight.position.set(0, 10, 10)
+      webgl.scene.add(directionalLight)
+
+      const ambientLight = new THREE.AmbientLight('#ffffff', 1.6)
+      webgl.scene.add(ambientLight)
+
+      // start animation loop
+      webgl.start()
+    </script>
+
+<audio id="viva" src="/models/viva.mp3" autoplay loop controls></audio>
+  </body>
+</html>
