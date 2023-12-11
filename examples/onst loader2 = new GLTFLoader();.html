@@ -1,0 +1,56 @@
+onst loader2 = new GLTFLoader();
+loader2.load( './matador/spider_with_animation 2/scene.gltf', function ( gltf ) {
+
+model = gltf.scene;
+scene.add( model );
+
+model.traverse( function ( object ) {
+
+  if ( object.isPlane ) object.castShadow = true;
+
+} );
+
+skeleton = new THREE.SkeletonHelper( model );
+skeleton.visible = false;
+scene.add( skeleton );
+
+const animations = gltf.animations;
+mixer = new THREE.AnimationMixer( model );
+
+numAnimations = animations.length;
+
+for ( let i = 0; i !== numAnimations; ++ i ) {
+
+  let clip = animations[ i ];
+  const name = clip.name;
+
+  if ( baseActions[ name ] ) {
+
+    const action = mixer.clipAction( clip );
+    activateAction( action );
+    baseActions[ name ].action = action;
+    allActions.push( action );
+    console.log(action);
+
+  } //else if ( additiveActions[ name ] ) {
+
+    // Make the clip additive and remove the reference frame
+
+    //THREE.AnimationUtils.makeClipAdditive( clip );
+
+    if ( clip.name.endsWith( '_pose' ) ) {
+
+      clip = THREE.AnimationUtils.subclip( clip, clip.name, 2, 3, 30 );
+
+    }
+
+    const action = mixer.clipAction( clip );
+    activateAction( action );
+   // additiveActions[ name ].action = action;
+    allActions.push( action );
+
+  }
+
+})
+
+createPanel();

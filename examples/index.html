@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Primary Meta Tags -->
+<title>Inoculate Media & Haawke Neural Tech</title>
+<meta name="title" content="Inoculate Media & Haawke Neural Tech" />
+<meta name="description" content="Inoculate Media is a Las Vegas based creative agency specializing in machine learning, data science, and ai. Check our Les Barons new record, the world's first record about and made with ai" />
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://inoculate.media/" />
+<meta property="og:title" content="Inoculate Media & Haawke Neural Tech" />
+<meta property="og:description" content="Inoculate Media is a Las Vegas based creative agency specializing in machine learning, data science, and ai. Check our Les Barons new record, the world's first record about and made with ai" />
+<meta property="og:image" content="https://inoculate.media/assets/iansi1200.png" />
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:url" content="https://inoculate.media/" />
+<meta property="twitter:title" content="Inoculate Media & Haawke Neural Tech" />
+<meta property="twitter:description" content="Inoculate Media is a Las Vegas based creative agency specializing in machine learning, data science, and ai. Check our Les Barons new record, the world's first record about and made with ai" />
+<meta property="twitter:image" content="https://inoculate.media/assets/iansi1200.png" />
+
+<!-- Meta Tags Generated with https://metatags.io -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@1,300&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@2.6.0/dist/full.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet"  href="./css/main.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/addons/p5.sound.min.js"></script>
+    <script src="./js/quasar.js"></script>
+    <style>
+
+      :root {
+        --container-bg-color: #2b2b2b;
+        --left-button-hover-color: rgba(161, 11, 11, 0.3);
+        --right-bg-color: rgba(43, 43, 43, 0.8);
+        --right-button-hover-color: rgba(92, 92, 92, 0.3);
+        --hover-width: 65%;
+        --other-width: 35%;
+        --speed: 1000ms;
+    }
+
+    html,
+    body {
+        padding: 0;
+        margin: 0;
+        font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+        width: 100%;
+        height: 100%;
+        overflow-x: hidden;
+
+    }
+
+    h1 {
+        font-size: 2.7rem;
+        color: #fff;
+        position: relative;
+        margin-left: 50%;
+
+        transform: translateX(-50%);
+        white-space: nowrap;
+    }
+
+    h2 {
+        font-size: 1.2rem;
+        color: #fff;
+        position: relative;
+        left: 2%;
+
+        transform: translateX(0%);
+        white-space: wrap;
+        overflow-y: visible;
+    }
+    h3 {
+        font-size: 1.2rem;
+        color: #dfe4e4;
+        position: relative;
+        left: 15%;
+        right: 20%;
+        bottom:0;
+
+        transform: translateX(0%);
+        white-space: wrap;
+        overflow-y: visible;
+    }
+
+    canvas {
+        display: block;
+      }
+    .button {
+        display: block;
+        position: relative;
+        top: 16%;
+        left: 30%;
+        height: 4.0rem;
+        padding-top: .8rem;
+        width: 25rem;
+        text-align: center;
+        color: #fff;
+        background-color: #5dbd2d;
+        font-size: 1.7rem;
+        font-weight: bold;
+        text-transform: uppercase;
+        text-decoration: none;
+        transform: translateX(-20%);
+    }
+
+    .split.left .button:hover {
+        background-color: black;
+        border-color: var(--left-button-hover-color);
+    }
+
+    .split.right .button:hover {
+        background-color: var(--right-button-hover-color);
+        border-color: var(--right-button-hover-color);
+    }
+
+    .container {
+        position: absolute;
+        margin-top:-50px;
+        width: 100%;
+        height: 100%;
+        background-color: #160920;
+    }
+
+    .split {
+        position: relative;
+        width: 100%;
+        height: 110%;
+        overflow: hidden;
+    }
+
+    .split.left {
+        left: 0;
+    }
+
+    .split.left:before {
+        position: absolute;
+        content: "";
+        width: 100%;
+        height: 100%;
+        background: var(--left-bg-color);
+    }
+
+    .split.right {
+        right: 0;
+        background: url("https://image.ibb.co/m3ZbRb/programmer.png") center center no-repeat;
+        background-size: cover;
+        width: 100%;
+        height: 100%;
+        margin-top: 0%;
+    }
+
+    .split.right:before {
+        position: absolute;
+        content: "";
+        width: 100%;
+        height: 108%;
+        background: var(--right-bg-color);
+    }
+
+    .split.left,
+    .split.right,
+    .split.right:before,
+    .split.left:before {
+        transition: var(--speed) all ease-in-out;
+    }
+
+    .hover-left .left {
+        width: var(--hover-width);
+    }
+
+    .hover-left .right {
+        width: var(--other-width);
+    }
+
+    .hover-left .right:before {
+        z-index: 2;
+    }
+
+    .hover-right .right {
+        width: var(--hover-width);
+    }
+
+    .hover-right .left {
+        width: var(--other-width);
+    }
+
+    .hover-right .left:before {
+        z-index: 2;
+    }
+
+    @media (max-width: 800px) {
+        h1 {
+            font-size: 2rem;
+        }
+        .button {
+            width: 12rem;
+        }
+    }
+
+    @media (max-height: 700px) {
+        .button {
+            top: 70%;
+        }
+    }
+
+    #stripe2 {
+        width: 100%;
+        height: 100%;
+        margin-top: 55px;
+        margin-left: 0px;
+    }
+
+.img {
+border-radius: 10px;
+box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;}
+
+    #colab {
+        margin-left: 40%;
+        margin-right: 45%;
+        margin-top: 44%;
+        z-index: 0;
+        position: absolute;
+    }
+    .btn {
+        border-color: #21a196;
+        border-width: 2px;
+        padding:5px;
+        margin:2px;
+    }
+    .navbar {
+        background-image: url('./images/locomotiv.jpeg');
+        height:76px;
+     position: absolute;
+
+
+    }
+    #wrapper  {
+        height:700px;
+        width:90%;
+        margin:5%;
+
+    }
+
+      #cover-canvas {
+        position: absolute;
+        top: 2rem;
+        left: 0;
+        outline: none;
+        pointer-events: none;
+      }
+      .grid-container {
+        display: -ms-grid;
+        margin-top:55px;
+        display: grid;
+        grid-template-rows: repeat(3, 1fr);
+        grid-template-columns: repeat(3, 1fr);
+        /*width: 100vw;
+        height: 100vh;*/
+        background-color: #383A3F;
+      }
+      @media screen and (max-width: 60em) {
+        .grid-container {
+          grid-template-rows: repeat(5, 1fr);
+        }
+      }
+      .block {
+        padding: 50px;
+        background-color:#1F2124;
+        color:  #de8518 ;
+        border-radius: 15px;
+        text-align: center;
+        font-family: arial, sans-serif;
+      }
+      .didascalia {
+        width:25%;
+        padding:10px;
+        margin:5%;
+
+      }
+      .grid-1 {
+        grid-column: 1 / 2;
+        grid-row: 1;
+        margin: 5px;
+      }
+      @media screen and (max-width: 60em) {
+        .grid-1 {
+          grid-column: 1 / 5;
+          grid-row: 1;
+          margin: 5px;
+        }
+      }
+      .grid-2 {
+        grid-column: 2 / 3;
+        grid-row: 1;
+        margin: 5px;
+      }
+      @media screen and (max-width: 60em) {
+        .grid-2 {
+          grid-column: 1 / 5;
+          grid-row: 2;
+          margin: 5px;
+        }
+      }
+      .grid-3 {
+        grid-column: 3 / 4;
+        grid-row: 1;
+        margin: 5px;
+      }
+      @media screen and (max-width: 60em) {
+        .grid-3 {
+          grid-column: 1 / 5;
+          grid-row: 3;
+          margin: 5px;
+        }
+      }
+      .grid-4 {
+        grid-column: 1 / 5;
+        grid-row: 2;
+        margin: 5px;
+      }
+      .footer{
+          grid-column: 1 / 5;
+          grid-row: 2;
+          margin: 5px;
+        }
+        .nain {
+          width:95%;
+          height:250px;
+        }
+      @media screen and (max-width: 60em) {
+        .grid-4 {
+          grid-column: 1 / 5;
+          grid-row: 4;
+          margin: 5px;
+        }
+      }
+
+
+
+
+    </style>
+
+    <script type="module">
+      import * as THREE from 'three'
+      import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js'
+      import eases from 'eases'
+      import WebGLApp from './lib/WebGLApp.js'
+      import ProjectedMaterial from '..'
+
+      function clamp01(value) {
+        return Math.min(Math.max(value, 0), 1)
+      }
+
+      // grab our canvas
+      const canvas = document.querySelector('#cover-canvas')
+
+      // WebGLApp is a really basic wrapper around the three.js setup,
+      // it hides all unnecessary stuff not related to this example
+      const webgl = new WebGLApp({
+        canvas,
+        // set the scene background alpha
+        backgroundAlpha: 0,
+        // give it aa fixed height
+        height: 350,
+      })
+
+      // attach it to the window to inspect in the console
+      window.webgl = webgl
+
+      const size = 1.8
+      const geometry = new RoundedBoxGeometry(size, size, size, 3, 0.04)
+
+      // load the textures
+      const textures = [
+        new THREE.TextureLoader().load('./images/three-projected-material-1.png'),
+        new THREE.TextureLoader().load('./images/three-projected-material-2.png'),
+        new THREE.TextureLoader().load('./images/three-projected-material-3.png'),
+        new THREE.TextureLoader().load('./images/three-projected-material-4.png'),
+        new THREE.TextureLoader().load('./images/three-projected-material-5.png'),
+        new THREE.TextureLoader().load('./images/three-projected-material-6.png'),
+      ]
+
+      // https://threejs.org/examples/#webgl_materials_texture_anisotropy
+      textures.forEach((texture) => {
+        texture.anisotropy = webgl.renderer.capabilities.getMaxAnisotropy()
+      })
+
+      // make an array of materials with the same texture
+      const materials = []
+      for (let i = 0; i < textures.length; i++) {
+        const material = new ProjectedMaterial({
+          camera: webgl.camera,
+          texture: textures[i],
+          color: 'ghostwhite',
+          textureScale: 0.65,
+          transparent: true, // needed for multiple materials
+          roughness: 0.1,
+          clearcoat: 1,
+        })
+
+        materials.push(material)
+
+        // reserve a group for the material on the geometry
+        // https://stackoverflow.com/a/49708915
+        geometry.addGroup(0, Infinity, i)
+      }
+
+      // create the mesh with the projected materials
+      const mesh = new THREE.Mesh(geometry, materials)
+      webgl.scene.add(mesh)
+
+      const rotations = [
+        (m) => m.rotateY(-Math.PI / 2),
+        (m) => m.rotateZ(Math.PI / 2),
+        (m) => m.rotateZ(Math.PI / 2),
+        (m) => m.rotateY(Math.PI / 2),
+        (m) => m.rotateX(-Math.PI / 2),
+        (m) => m.rotateX(-Math.PI / 2),
+      ]
+
+      // project the textures
+      rotations.forEach((rotate, i) => {
+        rotate(mesh)
+        mesh.material[i].project(mesh)
+      })
+
+      // reset the rotation
+      mesh.quaternion.identity()
+
+      // animate the cube
+      const INTERVAL_TIME = 3 // seconds
+      const ANIMATION_TIME = 2.5 // seconds
+      const targetMesh = new THREE.Object3D()
+      let counter = 0
+      const startQuaternion = new THREE.Quaternion()
+      let startTime = webgl.time
+      rotations[counter](targetMesh)
+      counter++
+      setInterval(() => {
+        startQuaternion.copy(targetMesh.quaternion)
+        rotations[counter](targetMesh)
+        counter = (counter + 1) % rotations.length
+        startTime = webgl.time
+      }, INTERVAL_TIME * 1000)
+
+      webgl.onUpdate((dt, time) => {
+        const t = clamp01((time - startTime) / ANIMATION_TIME)
+        mesh.quaternion.copy(startQuaternion).slerp(targetMesh.quaternion, eases.elasticOut(t))
+      })
+
+      // add lights
+      const spotLight = new THREE.SpotLight('#ffffff', 4, 40, Math.PI / 4, 1)
+      spotLight.decay = 1
+      spotLight.position.set(20, 20, 15)
+      spotLight.lookAt(0, 0, 0)
+      webgl.scene.add(spotLight)
+
+      const spotLight2 = new THREE.SpotLight('#ffffff', 4, 40, Math.PI / 4, 1)
+      spotLight2.decay = 1
+      spotLight2.position.set(-10, -3, -3)
+      spotLight2.lookAt(0, 0, 0)
+      webgl.scene.add(spotLight2)
+
+      const ambientLight = new THREE.AmbientLight('#ffffff', 0.4)
+      webgl.scene.add(ambientLight)
+
+      // start animation loop
+      webgl.start()
+    </script>
+
+
+
+</head>
+<div class="navbar">
+  <div class="navbar-center">
+
+<a class="btn btn-success text-xxl" id="name">Inoculate Media and Haawke Neural Technology</a>
+      <a href="https://haawke.neural.inoculate.media/" class="btn btn-success" target="_blank">Gallery</a>
+      <a class='btn btn-success' href='https://inoculate.media/main' target='_blank'>Projects</a>
+      <a class='btn btn-success' href='https://huggingface.co/HaawkeNeural' target='_blank'>Research</a>
+      <a class='btn btn-success' href='https:/inoculate.media/demos/demos.html' target='_blank'>Audio Demos</a>
+      <a href="https://haawke.neural.inoculate.media/" class="btn btn-success" target="_blank">About</a>
+      <a href="mailto:craig@inoculate.media&cc=terbo@inoculate.media&subject=Web Contact" target="_blank" class="btn btn-warning text-xl">Contact</a>
+<a href='https://github.com/inoculate23' target='_blank'><img src="./images/gh.png" height="45px" alt="github" /></a>
+<a href='https://www.youtube.com/@inoculatemedia' target='_blank'><img src="./images/youtube.png" height="45px" alt="youtube" /></a>
+<a href='https://twitter.com/MediaInoculate' target='_blank'><img src="./images/twitter.png" height="45px" alt="twitter" /></a>
+      <div class="navbar-end">
+
+      </div>
+  </div>
+
+</div>
+<body>
+
+
+
+<div class="grid-container">
+    <div class="grid-4 block">
+      <h1>Video/WebGL Demos</h1>
+    <main>
+      <canvas id="gl_canvas"></canvas>
+    </main>
+
+  </div>
+
+    </div>
+
+    <div class="grid-container">
+
+
+    <div class="grid-1 block">
+          <a href="same-camera.html"><img src="screenshots/m1.png" /></a>
+
+            <a href="same-camera" class="title-link">Mapped Image</a>
+
+          </div>
+          <div class="grid-2 block">
+          <a href="3d-model.html"><img src="screenshots/3d-model.png" /></a>
+
+            <a href="3d-model" class="title-link">3d model</a>
+            <a
+              href="https://github.com/marcofugaro/three-projected-material/blob/master/examples/3d-model.html"
+              target="_blank"
+              >(source)</a
+            >
+          </div>
+          <div class="grid-3 block">
+          <a href="orthographic-camera.html"><img src="screenshots/orthographic-camera.png" /></a>
+
+            <a href="orthographic-camera" class="title-link">Orthographic camera</a>
+            <a
+              href="https://github.com/marcofugaro/three-projected-material/blob/master/examples/orthographic-camera.html"
+              target="_blank"
+              >(source)</a>
+            </div>
+          </div>
+            <div class="grid-container">
+            <div class="grid-1 block">
+          <a href="transparency.html"><img src="screenshots/transparency.png" /></a>
+
+            <a href="transparency" class="title-link">Transparency</a>
+            <a
+              href="https://github.com/marcofugaro/three-projected-material/blob/master/examples/transparency.html"
+              target="_blank"
+              >(source)</a
+            >
+          </div>
+          <div class="grid-2 block">
+          <a href="envmap.html"><img src="screenshots/envmap.png" /></a>
+          <div class="didascalia">
+            <a href="envmap" class="title-link">Envmap</a>
+            <a
+              href="https://github.com/marcofugaro/three-projected-material/blob/master/examples/envmap.html"
+              target="_blank"
+              >(source)</a
+            >
+          </div>
+          <div class="grid-3 block">
+          <a href="multiple-projections.html"><img src="screenshots/multiple-projections.png" /></a>
+          <div class="didascalia">
+            <a href="multiple-projections" class="title-link">Multiple projections</a>
+            <a
+              href="https://github.com/marcofugaro/three-projected-material/blob/master/examples/multiple-projections.html"
+              target="_blank"
+              >(source)</a
+            >
+          </div>
+
+        </div>
+        <div class="grid-container">
+          <div class="grid-1 block">
+          <a href="instancing.html"><img src="screenshots/instancing.png" /></a>
+          <div class="didascalia">
+            <a href="instancing" class="title-link">Instancing</a>
+            <a
+              href="https://github.com/marcofugaro/three-projected-material/blob/master/examples/instancing.html"
+              target="_blank"
+              >(source)</a
+            >
+          </div>
+          <div class="grid-2 block">
+          <a href="multiple-projections-instancing.html"
+            ><img src="screenshots/multiple-projections-instancing.png"
+          /></a>
+          <div class="didascalia">
+            <a href="multiple-projections-instancing" class="title-link"
+              >Multiple projections instancing</a
+            >
+          </div>
+            <div class="grid-3 block">
+            <a href="https://github.com/marcofugaro/three-projected-material/blob/master/examples/multiple-projections-instancing.html"
+              target="_blank"
+              >(source)</a
+            >
+          </div>
+        </div>
+          <div class="grid-container">
+          <div class="grid-1 block">
+          <a href="video.html"><img src="screenshots/video.png" /></a>
+          <div class="didascalia">
+            <a href="video" class="title-link">Video</a>
+
+          </div>
+        </div>
+        <div class="grid-container">
+        <div class="grid-1 block">
+        <a href="video.html"><img src="screenshots/video.png" /></a>
+        <div class="didascalia">
+          <a href="viva2.html" class="title-link">Video</a>
+
+        </div>
+        <div class="grid-container">
+          <div class="grid-1 block">
+          <a href="video.html"><img src="screenshots/video.png" /></a>
+          <div class="didascalia">
+            <a href="viva-las-vegas.html" class="title-link">Viva</a>
+  
+          </div>
+ <div class="grid-container">
+          <div class="grid-1 block">
+          <a href="viva2.html"><img src="screenshots/video.png" /></a>
+          <div class="didascalia">
+            <a href="viva-las-vegas.html" class="title-link">Viva2</a>
+  
+          </div>
+          <div class="grid-2 block">
+        <a href="video_fft.html"><img src="screenshots/video.png" /></a>
+        <div class="didascalia">
+          <a href="video" class="title-link">Video-FFT</a>
+          <a
+            href="https://github.com/marcofugaro/three-projected-material/blob/master/examples/video.html"
+            target="_blank"
+            >(source)</a
+          >
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
